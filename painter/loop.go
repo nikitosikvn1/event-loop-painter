@@ -2,6 +2,7 @@ package painter
 
 import (
 	"image"
+	"sync"
 
 	"golang.org/x/exp/shiny/screen"
 )
@@ -30,9 +31,6 @@ var size = image.Pt(800, 800)
 func (l *Loop) Start(s screen.Screen) {
 	l.next, _ = s.NewTexture(size)
 	l.prev, _ = s.NewTexture(size)
-
-	// TODO: ініціалізувати чергу подій.
-	// TODO: запустити рутину обробки повідомлень у черзі подій.
 
 	l.stopped = make(chan struct{})
 
@@ -66,10 +64,43 @@ func (l *Loop) StopAndWait() {
 
 // TODO: реалізувати власну чергу повідомлень.
 type messageQueue struct {
+	ops []Operation
+	mu sync.Mutex
+	blocked chan struct{}
 }
 
-func (mq *messageQueue) push(op Operation) {}
+func (mq *messageQueue) push(op Operation) {
+	mq.mu.Lock()
+	defer mq.mu.Unlock()
 
-func (mq *messageQueue) pull() Operation { return nil }
+	mq.ops = append(mq.ops, op)
 
-func (mq *messageQueue) empty() bool { return false }
+	if mq.blocked != nil {
+		close(mq.blocked)
+		mq.blocked = nil
+	}
+}
+
+func (mq *messageQueue) pull() Operation {
+	mq.mu.Lock()
+	defer mq.mu.Unlock()
+
+	for len(mq.ops) == 0 {
+		mq.blocked = make(chan struct{})
+		mq.mu.Unlock()
+		<-mq.blocked
+		mq.mu.Lock()
+	}
+
+	op := mq.ops[0]
+	mq.ops[0] = nil
+	mq.ops = mq.ops[1:]
+	return op
+}
+
+func (mq *messageQueue) empty() bool {
+	mq.mu.Lock()
+	defer mq.mu.Unlock()
+
+	return len(mq.ops) == 0
+}

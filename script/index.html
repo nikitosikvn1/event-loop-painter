@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web client for Go painter</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+        html, body {
+            height: 100%;
+        }
+
+        .wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .form-container {
+            width: 500px;
+            padding: 20px;
+            background-color: #fff;
+            font-family: 'Open Sans', sans-serif;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-container h1 {
+            text-align: center;
+        }
+
+        .form-group label {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .form-group textarea {
+            height: 200px;
+        }
+
+        .form-group .btn {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="form-container">
+            <h1>Web client for Golang painter</h1>
+            <form>
+                <div class="form-group">
+                    <label for="textarea">Enter commands here:</label>
+                    <textarea class="form-control" id="textarea" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-outline-primary btn-block">Send HTTP request</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="src/script.js"></script>
+</body>
+</html>

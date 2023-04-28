@@ -47,10 +47,10 @@ func (p *Parser) Parse(in io.Reader) ([]painter.Operation, error) {
 					return nil, errors.New("invalid number of arguments for bgrect")
 				}
 
-				x1, err1 := strconv.Atoi(cmd[1])
-				y1, err2 := strconv.Atoi(cmd[2])
-				x2, err3 := strconv.Atoi(cmd[3])
-				y2, err4 := strconv.Atoi(cmd[4])
+				x1, err1 := strconv.ParseFloat(cmd[1], 64)
+				y1, err2 := strconv.ParseFloat(cmd[2], 64)
+				x2, err3 := strconv.ParseFloat(cmd[3], 64)
+				y2, err4 := strconv.ParseFloat(cmd[4], 64)
 				fmt.Println(x1, y1, x2, y2)
 
 				if err1 != nil || err2 != nil || err3 != nil || err4 != nil {
@@ -64,8 +64,8 @@ func (p *Parser) Parse(in io.Reader) ([]painter.Operation, error) {
 					return nil, errors.New("invalid number of arguments for figure")
 				}
 
-				x, err1 := strconv.Atoi(cmd[1])
-				y, err2 := strconv.Atoi(cmd[2])
+				x, err1 := strconv.ParseFloat(cmd[1], 64)
+				y, err2 := strconv.ParseFloat(cmd[2], 64)
 				fmt.Println(x, y)
 
 				if err1 != nil || err2 != nil {
@@ -79,8 +79,8 @@ func (p *Parser) Parse(in io.Reader) ([]painter.Operation, error) {
 					return nil, errors.New("invalid number of arguments for move")
 				}
 	
-				dx, err1 := strconv.Atoi(cmd[1])
-				dy, err2 := strconv.Atoi(cmd[2])
+				dx, err1 := strconv.ParseFloat(cmd[1], 64)
+				dy, err2 := strconv.ParseFloat(cmd[2], 64)
 				fmt.Println(dx, dy)
 	
 				if err1 != nil || err2 != nil {

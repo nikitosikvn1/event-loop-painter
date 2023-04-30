@@ -25,7 +25,10 @@ func HttpHandler(loop *painter.Loop, p *Parser) http.Handler {
 			return
 		}
 
-		loop.Post(painter.OperationList(cmds))
+		// loop.Post(painter.OperationList(cmds))
+		for _, cmd := range cmds {
+			loop.Post(cmd)
+		}
 		rw.WriteHeader(http.StatusOK)
 	})
 }

@@ -25,7 +25,7 @@ form.addEventListener('submit', (e) => {
 });
 
 gfButton.addEventListener('click', () => {
-    const url = 'http://127.0.0.1:17000/?cmd=green,bgrect%200.1%200.1%200.9%200.9,update';
+    const url = 'http://127.0.0.1:17000/?cmd=green,bgrect%200.05%200.05%200.95%200.95,update';
 
     sendHTTPRequest(url)
       .then(response => console.log(response))
@@ -33,7 +33,7 @@ gfButton.addEventListener('click', () => {
 });
 
 dmButton.addEventListener('click', () => {
-    const urlToDraw = 'http://127.0.0.1:17000/?cmd=figure%200.1%200.1,update';
+    const urlToDraw = 'http://127.0.0.1:17000/?cmd=white,figure%200.1%200.1,update';
     const urlToMove = 'http://127.0.0.1:17000/?cmd=move%200.1%200.1,update';
 
     sendHTTPRequest(urlToDraw);

@@ -48,6 +48,11 @@ func GreenFill(t screen.Texture) {
 	t.Fill(t.Bounds(), color.RGBA{R: 85, G: 217, B: 104}, screen.Src)
 }
 
+// BlackFill зафарбовує тестуру у чорний колір. Використовується для reset.
+func BlackFill(t screen.Texture) {
+	t.Fill(t.Bounds(), color.Black, screen.Src)
+}
+
 // BgRect малює прямокутник по координатам лівого верхнього та правого нижнього кута.
 func BgRect(x1, y1, x2, y2 int) OperationFunc {
 	return func(t screen.Texture) {

@@ -4,25 +4,23 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
-	"image/color"
 	"io"
 	"strconv"
 	"strings"
 
 	"github.com/roman-mazur/architecture-lab-3/painter"
-	"golang.org/x/exp/shiny/screen"
 )
 
 // Parser уміє прочитати дані з вхідного io.Reader та повернути список операцій представлені вхідним скриптом.
 type Parser struct {
 	BgColor painter.OperationFunc
-	Rect painter.OperationFunc
+	Rect    painter.OperationFunc
 	Figures []*painter.Figure
 }
 
 func (p *Parser) Parse(in io.Reader) ([]painter.Operation, error) {
 	var res []painter.Operation
-	
+
 	scanner := bufio.NewScanner(in)
 
 	for scanner.Scan() {
@@ -30,14 +28,14 @@ func (p *Parser) Parse(in io.Reader) ([]painter.Operation, error) {
 		if len(commands) == 0 {
 			continue
 		}
-		
+
 		for _, val := range commands {
 			cmd := strings.Fields(val)
-			
+
 			switch cmd[0] {
 			case "white":
 				p.BgColor = painter.OperationFunc(painter.WhiteFill)
-			
+
 			case "green":
 				p.BgColor = painter.OperationFunc(painter.GreenFill)
 
@@ -45,7 +43,7 @@ func (p *Parser) Parse(in io.Reader) ([]painter.Operation, error) {
 				if p.BgColor != nil {
 					res = append(res, p.BgColor)
 				}
-				
+
 				if p.Rect != nil {
 					res = append(res, p.Rect)
 				}
@@ -97,19 +95,19 @@ func (p *Parser) Parse(in io.Reader) ([]painter.Operation, error) {
 					X: xInt,
 					Y: yInt,
 				})
-			
+
 			case "move":
 				if len(cmd) != 3 {
 					return nil, errors.New("invalid number of arguments for move")
 				}
-	
+
 				dx, err1 := strconv.ParseFloat(cmd[1], 64)
 				dy, err2 := strconv.ParseFloat(cmd[2], 64)
 
 				if err1 != nil || err2 != nil {
 					return nil, errors.New("invalid arguments for move")
 				}
-				
+
 				dxInt := int(dx * 800)
 				dyInt := int(dy * 800)
 
@@ -118,18 +116,12 @@ func (p *Parser) Parse(in io.Reader) ([]painter.Operation, error) {
 				}
 
 			case "reset":
-				p.BgColor = painter.OperationFunc(func(t screen.Texture) {
-					t.Fill(t.Bounds(), color.Black, screen.Src)
-				})
+				p.BgColor = painter.OperationFunc(painter.BlackFill)
 				p.Rect = painter.BgRect(0, 0, 0, 0)
 				p.Figures = nil
 			}
 		}
 	}
-
-	// TODO: Реалізувати парсинг команд.
-	// res = append(res, painter.OperationFunc(painter.WhiteFill))
-	// res = append(res, painter.UpdateOp)
 
 	return res, nil
 }

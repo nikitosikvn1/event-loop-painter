@@ -119,6 +119,9 @@ func (p *Parser) Parse(in io.Reader) ([]painter.Operation, error) {
 				p.BgColor = painter.OperationFunc(painter.BlackFill)
 				p.Rect = painter.BgRect(0, 0, 0, 0)
 				p.Figures = nil
+			
+			default:
+				return nil, errors.New("unknown command")
 			}
 		}
 	}

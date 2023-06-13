@@ -145,7 +145,8 @@ func TestParser_Parse(t *testing.T) {
 	}
 
 	for _, testCase := range testCases {
-		parser := &Parser{}
+		state := NewCanvasState()
+		parser := NewParserWithState(state)
 
 		t.Run(testCase.input, func(t *testing.T) {
 			reader := strings.NewReader(testCase.input)
@@ -170,8 +171,8 @@ func TestParser_Parse(t *testing.T) {
 			// Coordinate comparisons (used to check for move)
 			if testCase.expectedFigures != nil {
 				for i, figureInstance := range testCase.expectedFigures {
-					if figureInstance.X != parser.Figures[i].X || figureInstance.Y != parser.Figures[i].Y {
-						t.Errorf("Expected coords: (%d, %d) but got: (%d, %d)",figureInstance.X, figureInstance.Y, parser.Figures[i].X, parser.Figures[i].Y)
+					if figureInstance.X != parser.State.Figures[i].X || figureInstance.Y != parser.State.Figures[i].Y {
+						t.Errorf("Expected coords: (%d, %d) but got: (%d, %d)",figureInstance.X, figureInstance.Y, parser.State.Figures[i].X, parser.State.Figures[i].Y)
 					}
 				}
 			}

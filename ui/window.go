@@ -45,10 +45,6 @@ func (pw *Visualizer) Update(t screen.Texture) {
 }
 
 func (pw *Visualizer) run(s screen.Screen) {
-	if pw.OnScreenReady != nil {
-		pw.OnScreenReady(s)
-	}
-
 	w, err := s.NewWindow(&screen.NewWindowOptions{
 		Title: pw.Title,
 		Width: 800,
@@ -61,6 +57,10 @@ func (pw *Visualizer) run(s screen.Screen) {
 		w.Release()
 		close(pw.done)
 	}()
+
+	if pw.OnScreenReady != nil {
+		pw.OnScreenReady(s)
+	}
 
 	pw.w = w
 

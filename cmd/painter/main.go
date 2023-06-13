@@ -11,10 +11,9 @@ import (
 func main() {
 	var (
 		pv ui.Visualizer // Візуалізатор створює вікно та малює у ньому.
-
-		// Потрібні для частини 2.
 		opLoop painter.Loop // Цикл обробки команд.
-		parser lang.Parser  // Парсер команд.
+		state = lang.NewCanvasState()
+		parser = lang.NewParserWithState(state)
 	)
 
 	//pv.Debug = true
@@ -24,7 +23,7 @@ func main() {
 	opLoop.Receiver = &pv
 
 	go func() {
-		http.Handle("/", lang.HttpHandler(&opLoop, &parser))
+		http.Handle("/", lang.HttpHandler(&opLoop, parser))
 		_ = http.ListenAndServe("localhost:17000", nil)
 	}()
 
